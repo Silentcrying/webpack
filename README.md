@@ -21,8 +21,20 @@ Loader让Webpack能够去处理那些非JavaScript文件(Webpack自身只能理�
 
 
 # 相关依赖包 commonjs模块
+`
 webpack
 webpack-cli 通过它来使用指令 来使用webpack中的内容
+"css-loader": "^4.0.0",
+"file-loader": "^6.0.0",
+"html-loader": "^1.1.0",
+"html-webpack-plugin": "^4.3.0",
+"less-loader": "^6.2.0",
+"style-loader": "^1.2.1",
+"url-loader": "^4.1.0",
+"webpack": "^4.44.0",
+"webpack-cli": "^3.3.12",
+"webpack-dev-server": "^3.11.0"
+`
 
 
 
