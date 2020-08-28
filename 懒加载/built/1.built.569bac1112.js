@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[1],{79:function(n,o,c){"use strict";c.r(o),c.d(o,"print",(function(){return i}));var i=function(){console.log("這裏是print")()};console.log(888)}}]);
+//# sourceMappingURL=1.built.569bac1112.js.map

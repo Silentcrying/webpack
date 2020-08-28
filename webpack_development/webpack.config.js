@@ -1,6 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+/**
+ * HMR: hot module replacement 热模块替换 / 模块热替换
+ *    作用： 一个模块发生变化，只会重新打包这一个模块(而不是打包所有模块)，极大提升构建速度
+ *    样式文件：可以使用HMR,内部实现style-loader
+ *    js文件：默认没有HMR功能(需要做HMR)
+ *      注意：HMR功能对js的处理，只能处理非入口文件；若是入口文件，则会重新打包所有文件
+ *    html文件：默认不能使用HMR功能，同时导致问题： html文件不能热更新了；解决：修改entry，将html引入(不用做HMR功能)
+ */
 
 /**
  * 开发环境的配置
@@ -9,7 +17,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
  * npx webpack-dev-server 只会在内存中编译打包，没有输出
  */
 const config = {
-    entry: './src/index.js',
+    entry: ['./src/index.js','./src/index.html'],
     output: {
         filename: 'built.js',
         path: path.resolve(__dirname, 'built')
@@ -72,7 +80,9 @@ const config = {
         // 端口号
         port: 8888,
         // 自动打开浏览器
-        open: true
+        open: true,
+        // 开启HMR功能
+        hot: true
     }
 }
 

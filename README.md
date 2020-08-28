@@ -42,3 +42,78 @@ webpack-cli 通过它来使用指令 来使用webpack中的内容
 
 
 # src 业务代码 es6模块
+
+# webpack性能优化
+* 开发环境性能优化
++ 生产环境性能优化
+
+
+## 开发环境性能优化
++ 优化打包构建速度
+  - HMR
+- 优化代码调试
+  [^ source-map
+     * source-map:  一种提供源代码到构建后代码映射技术 (如果构建后代码出错了，通过映射关系可以追踪到源代码错误)
+     *  source-map 生成的.js.map会在打包文件的外部
+     * 参数: 
+     *    [inline-|hidden-|eval-][nosources-][ cheap-[ module-]]source-map
+     * 
+     *    source-map
+     *       错误代码准确信息 和 源代码错误位置
+     *    inline-source-map 内联
+     *       1. 只生成一个内联的source-map
+     *       2. 错误代码准确信息 和 源代码错误位置
+     *    hidden-source-map 外部
+     *       错误代码错误原因，但没有错误位置
+     *       不能追踪源代码错误，只能提示到构建后代码错误位置
+     *       隐藏源代码
+     *    eval-source-map  内联
+     *       1. 每一个文件都生成对应的source-map文件，在尾部  都在eval文件中
+     *       2. 错误代码准确信息 和 源代码错误位置
+     *    nosource-source-map  外部
+     *       错误代码提示准确信息，但是没有任何源代码信息
+     *       隐藏源代码
+     *    cheap-source-map  外部
+     *       错误代码准确信息 和 源代码错误位置
+     *       提示错误只能精确到行，而不能列
+     *    cheap-module-source-map  外部
+     *       错误代码准确信息 和 源代码错误位置
+     * 
+     *    内联和外部的区别： 1. 外部生成了文件，内联没有 2.内联构建速度快
+     * 
+     * 开发环境：
+     *     速度快，调试更友好
+     *       《《《(速度快：eval>inline>cheap>...) eval-cheap-source-map < eval-source-map
+     *     调试更友好
+     *       《《《(source-map> cheap-module-source-map > cheap-source-map)
+     *     一般用eval-source-map 或者 eval-cheap-module-source-map  脚手架默认为eval-source-map
+     * 生产环境：源代码要不要隐藏？ 调试要不要更友好
+     *     内联会让代码体积变大，所以生产环境不用内联
+     *        《《《nosources-source-mao
+     * 
+     *     --->调试： source-map / cheap-module-source-map
+     */
+    + devtool: 'source-map'
+  ]
+
+ ## 生产环境性能优化
+ * 优化打包构建速度
+   * oneOf 不会重复的去遍历loader 当然重复loader要分开 不然只执行一个
+   * babel 缓存
+   + 多进程打包   注意：多进程开始每个进程都会有进程时间
+   * externals  限制打包
+   * dll 限制打包
+ + 优化代码运行的性能
+   + 缓存(hash-chunkhash-contenthash)
+   - tree shaking(树摇) 去除应用程序中没有使用的代码   注意：必须开启es6  production环境 会自动启动树摇
+        [^ tree shaking(树摇)  去除应用程序中无用的代码
+          前提： 1、必须使用ES6模块化  2、开启production环境
+          作用： 减少打包代码体积
+        
+          在package.json中配置
+          "sideEffecs": false  所有代码都没有副作用(都可以进行tree shaking)  问题: 可能会把css/@basel/prolyfill(副作用) 文件干掉
+          故： "sideEffecs": ["**.css", "#.less"] 这样就不会因为版本的不同造成tree shaking 将文件干掉]
+    + 代码分割code split
+    + js代码懒加载/预加载
+    + pwa 渐进式网络应用程序(离线可浏览)  兼容性差
+    
